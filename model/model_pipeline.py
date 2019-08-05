@@ -32,12 +32,12 @@ class ModelPipeline:
         model.add(Dropout(0.2))
 
         # layers with 32 filters
-        model.add(Conv2D(filters = 32, kernel_size = filter_shape, activation = 'relu'))
+        model.add(Conv2D(filters = 64, kernel_size = filter_shape, activation = 'relu'))
         model.add(MaxPooling2D(pool_size = pooling_shape))
         model.add(Dropout(0.2))
 
         # layers with 64 filters
-        model.add(Conv2D(filters = 64, kernel_size = filter_shape, activation = 'relu'))
+        model.add(Conv2D(filters = 128, kernel_size = filter_shape, activation = 'relu'))
         model.add(MaxPooling2D(pool_size = pooling_shape))
         model.add(Dropout(0.2))
         
@@ -80,19 +80,14 @@ class ModelPipeline:
         train_datagen.fit(X_train)
 
         # fit the model 
-        batch_size = 32
+        batch_size = 128
         steps_per_epoch = X_train.shape[0] // batch_size 
-        epochs = 5
+        epochs = 3
 
         model.fit_generator(train_datagen.flow(X_train, y_train, batch_size=batch_size),
                     steps_per_epoch=steps_per_epoch, epochs=epochs, verbose = 1, 
                     validation_data = (X_test, y_test))
-
-
-
-
-
-        
+      
 if __name__ == '__main__': 
     mp = ModelPipeline()
     mp.model_training_pipeline()
