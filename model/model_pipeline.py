@@ -82,11 +82,13 @@ class ModelPipeline:
         # fit the model 
         batch_size = 128
         steps_per_epoch = X_train.shape[0] // batch_size 
-        epochs = 3
+        epochs = 2
 
         model.fit_generator(train_datagen.flow(X_train, y_train, batch_size=batch_size),
-                    steps_per_epoch=steps_per_epoch, epochs=epochs, verbose = 1, 
+                    steps_per_epoch=steps_per_epoch, epochs=epochs, verbose = 0,
                     validation_data = (X_test, y_test))
+
+        model.save('../models/my_model.h5')
       
 if __name__ == '__main__': 
     mp = ModelPipeline()
