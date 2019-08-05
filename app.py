@@ -1,15 +1,21 @@
-from flask import Flask 
-import json
+from flask import Flask, request
+from flask_restplus import Resource, Api
+from PIL import Image
 
 app = Flask(__name__)
+api = Api(app)
 
-@app.route('/_health')
-def index():
-    return json.dumps({'status' : {'Feeling good' : 200}}, indent = 4)
+@api.route('/_health')
+class Health(Resource):
+    def get(self):
+        return {'Feeling': 'Good'}
 
-@app.route('/predict')
-def predict(): 
-    pass
-    
-if __name__ == '__main__': 
-    app.run(debug = True, host = 'localhost', port = 5000)
+@api.route('/predict')
+class Predict(Resource):
+    def post(self):
+        print(request.files['file'])
+        #img = Image.open(request.files['file'])
+        return 'Success!'
+
+if __name__ == '__main__':
+    app.run(debug=True)
